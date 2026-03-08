@@ -137,6 +137,40 @@ docker build -t easy-proxies:latest .
 docker compose up -d
 ```
 
+### 使用本仓库自动构建的 GHCR 镜像
+
+本 fork 已配置 GitHub Actions 自动构建并推送镜像到 GHCR：
+
+- `ghcr.io/fengzaixing401/easyproxiesv2:latest`
+- `ghcr.io/fengzaixing401/easyproxiesv2:main`
+- `ghcr.io/fengzaixing401/easyproxiesv2:sha-<commit>`
+- 若推送版本标签（如 `v1.0.0`），还会生成对应 tag 镜像
+
+拉取示例：
+
+```bash
+docker pull ghcr.io/fengzaixing401/easyproxiesv2:latest
+```
+
+运行示例：
+
+```bash
+docker run -d \
+  --name easyproxiesv2 \
+  -p 2323:2323 \
+  -p 9091:9091 \
+  -p 24000-24200:24000-24200 \
+  -v $(pwd)/config.yaml:/etc/easy-proxies/config.yaml \
+  -v easyproxies-data:/etc/easy-proxies/data \
+  ghcr.io/fengzaixing401/easyproxiesv2:latest
+```
+
+如需用 compose，可将镜像替换为：
+
+```yaml
+image: ghcr.io/fengzaixing401/easyproxiesv2:latest
+```
+
 ## 📁 目录结构简述
 
 - `cmd/easy_proxies/`: Go 程序入口
